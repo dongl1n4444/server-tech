@@ -5,5 +5,9 @@ module.exports = {
     },
     "env": {
         "es6": true
+    },
+    "rules": {
+        "comma-dangle": ["error", "never"],
+        "new-cap": [2, {"capIsNew": false}]
     }
 };
