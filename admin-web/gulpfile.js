@@ -97,10 +97,13 @@ gulp.task('copy', function() {
 
   gulp.src(['bower_components/raphael/raphael.js', 'bower_components/raphael/raphael.min.js'])
       .pipe(gulp.dest('vendor/raphael'));
+
+  gulp.src(['bower_components/sb-admin-2/js/sb-admin-2.js', 'bower_components/sb-admin-2/css/sb-admin-2.css'])
+      .pipe(gulp.dest('vendor/sb-admin-2'));
 });
 
 // Run everything
-// gulp.task('default', ['copy']);
+// gulp.task('default', ['minify-css', 'minify-js', 'copy']);
 
 // Configure the browserSync task
 gulp.task('browserSync', function(cb) {
