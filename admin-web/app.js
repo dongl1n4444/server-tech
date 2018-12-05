@@ -9,7 +9,7 @@ nunjucks.configure('views', {
   autoescape: true,
   express: app
 });
-app.set('view engine', 'njk');
+app.set('view engine', 'html');
 
 app.use('/static', express.static(path.join(__dirname, 'public')));
 app.use('/lib', express.static(path.join(__dirname, 'node_modules')));
