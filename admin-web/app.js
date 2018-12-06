@@ -12,7 +12,8 @@ nunjucks.configure('views', {
 app.set('view engine', 'html');
 
 app.use('/static', express.static(path.join(__dirname, 'public')));
-app.use('/lib', express.static(path.join(__dirname, 'node_modules')));
+app.use('/lib', express.static(path.join(__dirname, 'vendor')));
+// app.use('/static', express.static(path.join(__dirname, 'vendor')));
 app.use('/', routes);
 
 app.listen(3000, function() {
