@@ -108,10 +108,14 @@ gulp.task('copy', function() {
 // Configure the browserSync task
 gulp.task('browserSync', function(cb) {
   browserSync.init({
-    server: {
-      baseDir: './views',
-      index: 'index.html'
-    }
+    // server: {
+    //   baseDir: './views',
+    //   index: 'index.html'
+    // }
+    proxy: 'http://localhost:3000',
+    files: ['./views/*.*'],
+    // browser: 'google chrome',
+    port: 7000
   });
 });
 
