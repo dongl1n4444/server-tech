@@ -107,7 +107,7 @@ gulp.task('copy', function() {
 // gulp.task('default', ['minify-css', 'minify-js', 'copy']);
 
 // Configure the browserSync task
-gulp.task('watch', function() {
+gulp.task('browserSync', function() {
   browserSync.init({
     // server: {
     //   baseDir: './views',
@@ -131,8 +131,9 @@ gulp.task('watch', function() {
 //     gulp.watch('dist/js/*.js', browserSync.reload);
 // });
 
-gulp.task('nodemon', function() {
-  nodemon({
+gulp.task('nodemon', function(cb) {
+  let started = false;
+  return nodemon({
     script: 'app.js',
     ext: 'js html',
     ignore: [
@@ -143,23 +144,29 @@ gulp.task('nodemon', function() {
     env: {'NODE_ENV': 'development'},
     stdout: true,
     watch: ['views/']
+  // }).on('start', function() {
+  //   console.log('start');
+  //   // browserSync.reload();
+  //   browserSync.init({
+  //     // server: {
+  //     //   baseDir: './views',
+  //     //   index: 'index.html'
+  //     // }
+  //     proxy: 'http://localhost:3000',
+  //     // files: ['./views/*.html'],
+  //     // browser: 'google chrome',
+  //     // notify: false,
+  //     port: 7000
+  //   }, function() {});
+  // }).on('restart', function() {
+  //   console.log('restart');
+  //   // browserSync.reload();
+  // });
   }).on('start', function() {
-    console.log('start');
-    // browserSync.reload();
-    browserSync.init({
-      // server: {
-      //   baseDir: './views',
-      //   index: 'index.html'
-      // }
-      proxy: 'http://localhost:3000',
-      // files: ['./views/*.html'],
-      // browser: 'google chrome',
-      // notify: false,
-      port: 7000
-    }, function() {});
-  }).on('restart', function() {
-    console.log('restart');
-    // browserSync.reload();
+    if (!started) {
+      cb();
+      started = true;
+    }
   });
 });
 
@@ -168,4 +175,4 @@ gulp.task('nodemon', function() {
 // }));
 // gulp.task('default', gulp.parallel('browserSync'));
 // gulp.task('dev', gulp.parallel('browserSync'));
-// gulp.task('dev', gulp.series('nodemon', 'browserSync'));
+gulp.task('dev', gulp.series('nodemon', 'browserSync'));
