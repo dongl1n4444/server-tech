@@ -143,7 +143,7 @@ gulp.task('nodemon', function(cb) {
     ],
     env: {'NODE_ENV': 'development'},
     stdout: true,
-    watch: ['views/']
+    watch: ['app.js', 'views/', 'routes/']
   // }).on('start', function() {
   //   console.log('start');
   //   // browserSync.reload();
