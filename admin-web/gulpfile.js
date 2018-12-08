@@ -107,18 +107,21 @@ gulp.task('copy', function() {
 // gulp.task('default', ['minify-css', 'minify-js', 'copy']);
 
 // Configure the browserSync task
-gulp.task('browserSync', function() {
+gulp.task('browser-sync', function(cb) {
+// function bsync() {
+  console.log('browserSync start');
   browserSync.init({
     // server: {
     //   baseDir: './views',
     //   index: 'index.html'
     // }
     proxy: 'http://localhost:3000',
-    files: ['./views/*.html'],
+    // files: ['./views/*.html'],
     // browser: 'google chrome',
-    // notify: false,
+    notify: false,
     port: 7000
   });
+  cb();
 });
 
 // Dev task with browserSync
@@ -132,6 +135,7 @@ gulp.task('browserSync', function() {
 // });
 
 gulp.task('nodemon', function(cb) {
+// function nodem(cb) {
   let started = false;
   return nodemon({
     script: 'app.js',
@@ -144,6 +148,7 @@ gulp.task('nodemon', function(cb) {
     env: {'NODE_ENV': 'development'},
     stdout: true,
     watch: ['app.js', 'views/', 'routes/']
+  //  done: cb
   // }).on('start', function() {
   //   console.log('start');
   //   // browserSync.reload();
@@ -164,9 +169,18 @@ gulp.task('nodemon', function(cb) {
   // });
   }).on('start', function() {
     if (!started) {
-      cb();
       started = true;
+      console.log('nodemon start');
+      // gulp.task('browserSync');
+      setTimeout(()=>{
+        cb();
+      }, 500);
+      // cb();
     }
+  }).on('restart', function() {
+    setTimeout(()=>{
+      browserSync.reload();
+    }, 500);
   });
 });
 
@@ -175,4 +189,9 @@ gulp.task('nodemon', function(cb) {
 // }));
 // gulp.task('default', gulp.parallel('browserSync'));
 // gulp.task('dev', gulp.parallel('browserSync'));
-gulp.task('dev', gulp.series('nodemon', 'browserSync'));
+// gulp.task('dev', gulp.series(nodem, bsync));
+gulp.task('dev', gulp.series('nodemon', 'browser-sync', function(done) {
+  console.log('kkkk');
+  browserSync.reload();
+  done();
+}));

@@ -1,0 +1,30 @@
+{
+  "editor.tabSize": 2,
+  "beautify.language": {
+    "js": {
+      "type": [
+        "javascript",
+        "json",
+        "jsonc"
+      ],
+      "filename": [
+        ".jshintrc",
+        ".jsbeautifyrc"
+      ]
+    },
+    "css": [
+      "css",
+      "scss"
+    ],
+    "html": {
+      "type": [
+        "htm",
+        "html"
+      ],
+      "filename": [
+        ".njk",
+        ".ejs"
+      ]
+    }
+  }
+}
