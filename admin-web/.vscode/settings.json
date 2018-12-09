@@ -22,6 +22,8 @@
         "html"
       ],
       "filename": [
+        ".htm",
+        ".html",
         ".njk",
         ".ejs"
       ]
