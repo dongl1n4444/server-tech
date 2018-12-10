@@ -5,6 +5,7 @@ const routes = require('./routes/index');
 const bodyParser = require('body-parser');
 
 const app = express();
+const port = process.env.port || 3000;
 
 nunjucks.configure('views', {
   autoescape: true,
@@ -20,6 +21,6 @@ app.use('/lib', express.static(path.join(__dirname, 'vendor')));
 // app.use('/static', express.static(path.join(__dirname, 'vendor')));
 app.use('/', routes);
 
-app.listen(3000, function() {
-  console.log('Example app listening on port 3000!');
+app.listen(port, function() {
+  console.log('app listening on port ' + port.toString());
 });
