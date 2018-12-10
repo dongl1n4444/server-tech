@@ -3,15 +3,19 @@ const path = require('path');
 const nunjucks = require('nunjucks');
 const routes = require('./routes/index');
 const bodyParser = require('body-parser');
+const logger = require('morgan');
+
+const port = process.env.port || 3000;
 
 const app = express();
-const port = process.env.port || 3000;
 
 nunjucks.configure('views', {
   autoescape: true,
   express: app
 });
 app.set('view engine', 'html');
+
+app.use(logger('dev'));
 
 // bodyParser 对 Post 请求体进行解析
 app.use(bodyParser.json());
