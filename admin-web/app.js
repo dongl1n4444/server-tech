@@ -4,6 +4,7 @@ const nunjucks = require('nunjucks');
 const routes = require('./routes/index');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
+const Sequelize = require('sequelize');
 
 const port = process.env.port || 3000;
 
@@ -25,6 +26,28 @@ app.use('/lib', express.static(path.join(__dirname, 'vendor')));
 // app.use('/static', express.static(path.join(__dirname, 'vendor')));
 app.use('/', routes);
 
-app.listen(port, function() {
-  console.log('app listening on port ' + port.toString());
+//
+const sequelize = new Sequelize('admin_web', 'root', '123456', {
+  host: 'localhost',
+  dialect: 'mysql',
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000
+  },
+  operatorsAliases: false
 });
+
+sequelize
+    .authenticate()
+    .then(()=>{
+      console.log('Connection has been established successfully.');
+    })
+    .catch((err)=>{
+      console.error('Unable to connect to the database:', err);
+    });
+
+// app.listen(port, function() {
+//   console.log('app listening on port ' + port.toString());
+// });
