@@ -43,11 +43,11 @@ sequelize
     .authenticate()
     .then(()=>{
       console.log('Connection has been established successfully.');
+      app.listen(port, function() {
+        console.log('app listening on port ' + port.toString());
+      });
     })
     .catch((err)=>{
       console.error('Unable to connect to the database:', err);
     });
 
-// app.listen(port, function() {
-//   console.log('app listening on port ' + port.toString());
-// });

@@ -23,4 +23,10 @@ router.post('/auth/login', function(req, res, next) {
   res.redirect('/index');
 });
 
+// TEST
+router.post('/test/user', function(req, res, next) {
+  console.log('route/test/user');
+  users.create(req, res);
+});
+
 module.exports = router;

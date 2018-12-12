@@ -9,4 +9,6 @@ TODO:
 [+]login + session
 
 REF:
-[getting-started-with-node-express-and-postgres-using-sequelize](https://scotch.io/tutorials/getting-started-with-node-express-and-postgres-using-sequelize)
+[getting-started-with-node-express-and-postgres-using-sequelize](https://scotch.io/tutorials/getting-started-with-node-express-and-postgres-using-sequelize)  
+[postgres-express-node-tutorial]
+(https://github.com/waiyaki/postgres-express-node-tutorial)
