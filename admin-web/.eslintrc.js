@@ -24,5 +24,10 @@ module.exports = {
           ClassDeclaration: true,
         },
       }],
+      'indent': [
+        'error', 2, {
+          "VariableDeclarator": 2
+        },
+      ],
   }
 };
