@@ -1,20 +1,32 @@
 'use strict';
-
-const Sequelize = require('sequelize');
-
-const User = sequelize.define('user', {
-  id: {
-    type: Sequelize.INTEGER.UNSIGNED,
-    allowNull: false
-  },
-  name: Sequelize.STRING(50),
-  email: Sequelize.STRING,
-  password: Sequelize.STRING(50),
-  salt: Sequelize.STRING(50)
-});
-
-User.create = () => {
-  console.log('User create');
+module.exports = (sequelize, DataTypes) => {
+  const User = sequelize.define('User', {
+    name: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
+    email: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
+    password: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
+    salt: {
+      allowNull: false,
+      type: DataTypes.STRING
+    }
+  }, {
+    indexes: [
+      {
+        unique: true,
+        fields: ['email']
+      }
+    ]
+  });
+  User.associate = function(models) {
+    // associations can be defined here
+  };
+  return User;
 };
-
-module.exports = User;

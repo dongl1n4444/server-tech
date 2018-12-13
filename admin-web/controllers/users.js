@@ -1,13 +1,14 @@
-const User = require('../models/user');
+const models = require('../models');
 
 const users = {};
 
 users.create = function(req, res) {
-  return User
+  return models.User
       .create({
         name: 'test',
         email: 'test@gmail.com',
-        password: '1111'
+        password: '1111',
+        salt: 'tttt'
       })
       .then((user) => {
         res.status(201).send(user);
