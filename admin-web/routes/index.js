@@ -1,5 +1,6 @@
 const express = require('express');
 const users = require('../controllers/users');
+const models = require('../models');
 
 const router = express.Router();
 
@@ -20,7 +21,21 @@ router.get('/login', function(req, res, next) {
 
 router.post('/auth/login', function(req, res, next) {
   console.log('route/auth/login ' + typeof(req.body));
-  res.redirect('/index');
+  // res.redirect('/index');
+  models.User
+    .findAll({
+      where: {
+        email: 'kkk@163.com'
+      }
+    })
+    .then((user) => {
+      console.log('succeed find user');
+      res.status(200).send(user);
+    })
+    .catch((error) => {
+      console.log('failed to find user');
+      res.status(400).send({message: 'Unknown user'});
+    });
 });
 
 // TEST
