@@ -4,22 +4,22 @@ const models = require('../models');
 
 const router = express.Router();
 
-router.get('/', function(req, res, next) {
-  console.log('route/');
+router.get('/', function(req, res) {
+  console.log('/ sessionID:' + req.sessionID);
   res.render('index', {title: 'Admin-Web'});
 });
 
-router.get('/index', function(req, res, next) {
+router.get('/index', function(req, res) {
   console.log('route/index');
   res.render('index', {title: 'Admin-Web'});
 });
 
-router.get('/login', function(req, res, next) {
+router.get('/login', function(req, res) {
   console.log('route/login');
   res.render('login', {title: 'Admin-Web'});
 });
 
-router.post('/auth/login', function(req, res, next) {
+router.post('/signin', function(req, res) {
   // console.log('route/auth/login ' + typeof(req.body));
   // res.redirect('/index');
   models.User
@@ -47,8 +47,12 @@ router.post('/auth/login', function(req, res, next) {
     });
 });
 
+router.get('/logout', function(req, res) {
+  console.log('/log');
+});
+
 // TEST
-router.post('/test/user', function(req, res, next) {
+router.post('/test/user', function(req, res) {
   console.log('route/test/user');
   users.create(req, res);
 });
