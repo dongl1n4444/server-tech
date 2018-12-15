@@ -20,21 +20,30 @@ router.get('/login', function(req, res, next) {
 });
 
 router.post('/auth/login', function(req, res, next) {
-  console.log('route/auth/login ' + typeof(req.body));
+  // console.log('route/auth/login ' + typeof(req.body));
   // res.redirect('/index');
   models.User
     .findAll({
       where: {
-        email: 'kkk@163.com'
+        email: req.body.email
       }
     })
     .then((user) => {
-      console.log('succeed find user');
-      res.status(200).send(user);
+      if (user.length === 0) {
+        console.log('no user');
+        res.status(400).send({message: 'Unknown user'});
+      } else {
+        if (user.password === req.body.password) {
+          console.log('Succeed find user');
+          res.redirect('/index');
+        } else {
+          console.log('password fail');
+          res.status(400).send({message: 'password fail'});
+        }
+      }
     })
     .catch((error) => {
-      console.log('failed to find user');
-      res.status(400).send({message: 'Unknown user'});
+      res.status(400).send(error);
     });
 });
 
