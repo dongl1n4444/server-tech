@@ -38,6 +38,7 @@ app.use(session({
   },
   secret: 'recommand 128 bytes random string',
   resave: false,
+  rolling: true,
   saveUninitialized: true,
   cookie: {
     secure: true,

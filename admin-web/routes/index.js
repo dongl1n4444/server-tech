@@ -4,12 +4,12 @@ const models = require('../models');
 
 const router = express.Router();
 
-router.get('/', function(req, res) {
+router.get('/', isLoggedIn, function(req, res) {
   console.log('/ sessionID:' + req.sessionID);
   res.render('index', {title: 'Admin-Web'});
 });
 
-router.get('/index', function(req, res) {
+router.get('/index', isLoggedIn, function(req, res) {
   console.log('route/index');
   res.render('index', {title: 'Admin-Web'});
 });
@@ -19,27 +19,27 @@ router.get('/login', function(req, res) {
   res.render('login', {title: 'Admin-Web'});
 });
 
-router.post('/signin', function(req, res) {
+router.post('/login', function(req, res) {
   // console.log('route/auth/login ' + typeof(req.body));
   // res.redirect('/index');
+  const email = req.body.email;
+  const password = req.body.password;
+
   models.User
     .findAll({
       where: {
-        email: req.body.email
+        email: email
       }
     })
     .then((user) => {
-      if (user.length === 0) {
+      if (!user) {
         console.log('no user');
-        res.status(400).send({message: 'Unknown user'});
+        res.redirect('/login');
+      } else if (!user.validPassword(password)) {
+        res.redirect('/login');
       } else {
-        if (user.password === req.body.password) {
-          console.log('Succeed find user');
-          res.redirect('/index');
-        } else {
-          console.log('password fail');
-          res.status(400).send({message: 'password fail'});
-        }
+        req.session.user = user.dataValues;
+        res.redirect('/index');
       }
     })
     .catch((error) => {
@@ -51,10 +51,12 @@ router.get('/logout', function(req, res) {
   console.log('/log');
 });
 
-// TEST
-router.post('/test/user', function(req, res) {
-  console.log('route/test/user');
-  users.create(req, res);
+router.get('/signup', function(req, res) {
 });
+
+function isLoggedIn(req, res, next) {
+  // if (req.)
+  res.redirect('/login');
+};
 
 module.exports = router;
