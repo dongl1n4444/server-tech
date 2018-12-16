@@ -1,5 +1,5 @@
 const express = require('express');
-const users = require('../controllers/users');
+// const users = require('../controllers/users');
 const models = require('../models');
 
 const router = express.Router();
@@ -25,26 +25,26 @@ router.post('/login', function(req, res) {
   const email = req.body.email;
   const password = req.body.password;
 
-  models.User
-    .findAll({
-      where: {
-        email: email
-      }
-    })
-    .then((user) => {
-      if (!user) {
-        console.log('no user');
-        res.redirect('/login');
-      } else if (!user.validPassword(password)) {
-        res.redirect('/login');
-      } else {
-        req.session.user = user.dataValues;
-        res.redirect('/index');
-      }
-    })
-    .catch((error) => {
-      res.status(400).send(error);
-    });
+  models.User.findOne({
+    where: {
+      email: email
+    }
+  }).then((user) => {
+    // console.log('findOne then: ' + user);
+    if (!user) {
+      console.log('no user');
+      res.redirect('/login');
+    } else if (!user.validPassword(password)) {
+      console.log('failed to valid password');
+      res.redirect('/login');
+    } else {
+      req.session.user = user.dataValues;
+      res.redirect('/index');
+    }
+  }).catch((error) => {
+    console.log('faild to find user: ' + error);
+    res.redirect('/login');
+  });
 });
 
 router.get('/logout', function(req, res) {
@@ -52,10 +52,28 @@ router.get('/logout', function(req, res) {
 });
 
 router.get('/signup', function(req, res) {
+  res.render('signup', {title: 'Admin-Web'});
+});
+router.post('/signup', function(req, res) {
+  models.User.create({
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
+    salt: ''
+  }).then((user) => {
+    req.session.user = user.dataValues;
+    res.redirect('/index');
+  }).catch((error) => {
+    console.log('failed to signup: ' + error);
+    res.redirect('/signup');
+  });
 });
 
 function isLoggedIn(req, res, next) {
-  // if (req.)
+  if (req.session.user) {
+    console.log('isLoggedIn: true');
+    return next();
+  }
   res.redirect('/login');
 };
 

@@ -25,26 +25,38 @@ module.exports = (sequelize, DataTypes) => {
         unique: true,
         fields: ['email']
       }
-    ]
+    ],
+    hooks: {
+      beforeCreate: (user, options) => {
+        console.log('before hashPassword: ' + user.password);
+        user.salt = makeSalt();
+        user.password = hashPassword(user.password, user.salt);
+        console.log('after hashPassword: ' + user.password);
+      }
+    }
   });
   User.associate = function(models) {
     // associations can be defined here
   };
-  User.beforeCreate = function(user, options) {
-    console.log('before hashPassword: ' + user.password);
-    user.password = hashPassword(user.password);
-    console.log('after hashPassword: ' + user.password);
-  };
+  // User.beforeCreate((user, options) => {
+  //   console.log('before hashPassword: ' + user.password);
+  //   user.salt = makeSalt();
+  //   user.password = hashPassword(user.password, user.salt);
+  //   console.log('after hashPassword: ' + user.password);
+  // });
   User.prototype.validPassword = function(password) {
-    //
+    console.log('validPassword: ' + this.salt + '-' + this.password);
+    const hashPW = hashPassword(password, this.salt);
+    return hashPW === this.password;
   };
   return User;
 };
 
-function hashPassword(password) {
-  const salt = Math.round((new Date().valueOf() * Math.random())) + '';
-  const hash = crypto.createHmac('sha1', salt)
-    .update(password)
-    .digest('hex');
+function makeSalt() {
+  return Math.round((new Date().valueOf() * Math.random())) + '';
+};
+
+function hashPassword(password, salt) {
+  const hash = crypto.createHmac('sha1', salt).update(password).digest('hex');
   return hash;
 };
