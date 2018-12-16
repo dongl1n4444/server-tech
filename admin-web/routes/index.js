@@ -32,13 +32,12 @@ router.post('/login', function(req, res) {
   }).then((user) => {
     // console.log('findOne then: ' + user);
     if (!user) {
-      console.log('no user');
       res.redirect('/login');
     } else if (!user.validPassword(password)) {
-      console.log('failed to valid password');
       res.redirect('/login');
     } else {
       req.session.user = user.dataValues;
+      // req.session.save();
       res.redirect('/index');
     }
   }).catch((error) => {
@@ -71,7 +70,6 @@ router.post('/signup', function(req, res) {
 
 function isLoggedIn(req, res, next) {
   if (req.session.user) {
-    console.log('isLoggedIn: true');
     return next();
   }
   res.redirect('/login');

@@ -5,7 +5,7 @@ const routes = require('./routes/index');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const models = require('./models');
-// const cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 // const cookieSession = require('cookie-session');
 const session = require('express-session');
 const uuid = require('uuid/v4');
@@ -38,10 +38,9 @@ app.use(session({
   },
   secret: 'recommand 128 bytes random string',
   resave: false,
-  rolling: true,
   saveUninitialized: true,
   cookie: {
-    secure: true,
+    // secure: true, // for https
     maxAge: 60 * 1000
   }
 }));
