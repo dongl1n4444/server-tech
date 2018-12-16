@@ -5,10 +5,11 @@ const routes = require('./routes/index');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const models = require('./models');
-const cookieParser = require('cookie-parser');
+// const cookieParser = require('cookie-parser');
 // const cookieSession = require('cookie-session');
 const session = require('express-session');
 const uuid = require('uuid/v4');
+const flash = require('connect-flash');
 
 const env = process.env.NODE_ENV || 'development';
 const port = process.env.port || 3000;
@@ -41,10 +42,11 @@ app.use(session({
   saveUninitialized: true,
   cookie: {
     // secure: true, // for https
-    maxAge: 60 * 1000
+    maxAge: 1000 * 60 * 30
   }
 }));
 
+app.use(flash());
 app.use('/', routes);
 
 // sync() will create all table if they doesn't exist in database

@@ -15,8 +15,11 @@ router.get('/index', isLoggedIn, function(req, res) {
 });
 
 router.get('/login', function(req, res) {
-  console.log('route/login');
-  res.render('login', {title: 'Admin-Web'});
+  if (req.session.user) {
+    res.redirect('/index');
+  } else {
+    res.render('login', {title: 'Admin-Web'});
+  }
 });
 
 router.post('/login', function(req, res) {
@@ -47,10 +50,10 @@ router.post('/login', function(req, res) {
 });
 
 router.get('/logout', function(req, res) {
-  console.log('/log');
+  console.log('/logout');
 });
 
-router.get('/signup', function(req, res) {
+router.get('/signup', isLoggedIn, function(req, res) {
   res.render('signup', {title: 'Admin-Web'});
 });
 router.post('/signup', function(req, res) {

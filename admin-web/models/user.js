@@ -38,12 +38,6 @@ module.exports = (sequelize, DataTypes) => {
   User.associate = function(models) {
     // associations can be defined here
   };
-  // User.beforeCreate((user, options) => {
-  //   console.log('before hashPassword: ' + user.password);
-  //   user.salt = makeSalt();
-  //   user.password = hashPassword(user.password, user.salt);
-  //   console.log('after hashPassword: ' + user.password);
-  // });
   User.prototype.validPassword = function(password) {
     console.log('validPassword: ' + this.salt + '-' + this.password);
     const hashPW = hashPassword(password, this.salt);
