@@ -54,6 +54,11 @@
                     <input name="remember" type="checkbox" value="Remember Me">Remember Me
                   </label>
                 </div>
+                {% if info | length %}
+                  <div class="alert alert-warning" role="alert">
+                    <strong>Warning!</strong> {{ info }}
+                  </div>
+                {% endif %}
                 <button class="btn btn-lg btn-success btn-block" type="submit">Login</a>
               </fieldset>
             </form>

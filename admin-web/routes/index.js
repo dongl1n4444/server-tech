@@ -18,7 +18,10 @@ router.get('/login', function(req, res) {
   if (req.session.user) {
     res.redirect('/index');
   } else {
-    res.render('login', {title: 'Admin-Web'});
+    res.render('login', {
+      title: 'Admin-Web',
+      info: req.flash('info')
+    });
   }
 });
 
@@ -35,8 +38,10 @@ router.post('/login', function(req, res) {
   }).then((user) => {
     // console.log('findOne then: ' + user);
     if (!user) {
+      req.flash('info', 'login fail.');
       res.redirect('/login');
     } else if (!user.validPassword(password)) {
+      req.flash('info', 'login fail.');
       res.redirect('/login');
     } else {
       req.session.user = user.dataValues;
