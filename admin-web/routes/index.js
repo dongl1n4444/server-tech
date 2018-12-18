@@ -58,7 +58,7 @@ router.get('/logout', function(req, res) {
   console.log('/logout');
 });
 
-router.get('/signup', isLoggedIn, function(req, res) {
+router.get('/signup', function(req, res) {
   res.render('signup', {title: 'Admin-Web'});
 });
 router.post('/signup', function(req, res) {

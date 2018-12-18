@@ -7,7 +7,7 @@ TODO:
 [x]create database(mysql) with fake data
 [x]connect mysql
 [x]login + session
-[+]connect-flash
+[x]connect-flash
 [+]cpu + memory
 [+]query users
 [+]user group

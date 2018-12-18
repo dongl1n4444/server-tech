@@ -61,6 +61,8 @@ const nodemon = require('gulp-nodemon');
 //         }))
 // });
 
+const TIME_BROWERSYNC_DELAY = 1000;
+
 // Copy vendor libraries from /bower_components into /vendor
 gulp.task('copy', function() {
   gulp.src(['bower_components/bootstrap/dist/**/*', '!**/npm.js', '!**/bootstrap-theme.*', '!**/*.map'])
@@ -174,13 +176,13 @@ gulp.task('nodemon', function(cb) {
       // gulp.task('browserSync');
       setTimeout(()=>{
         cb();
-      }, 500);
+      }, TIME_BROWERSYNC_DELAY);
       // cb();
     }
   }).on('restart', function() {
     setTimeout(()=>{
       browserSync.reload();
-    }, 500);
+    }, TIME_BROWERSYNC_DELAY);
   });
 });
 
